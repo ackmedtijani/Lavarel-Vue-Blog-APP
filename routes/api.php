@@ -18,13 +18,14 @@ use App\Http\Controllers\AuthController;
 */
 
 Route::group(['middleware' => ['auth:santum']] , function(){
-    Route::get('/blogs', [BlogController::class , 'index']);
-    Route::post('/blogs' , [BlogController::class , 'store']);
-    Route::put('/blogs/{id}' , [BlogController::class , 'store']);
-    Route::delete('/blogs/{id}', [ProductController::class, 'destroy']);
-    Route::post('/logout', [AuthController::class, 'logout']);
+    
 });
-
+Route::post('/blogs' , [BlogController::class , 'store']);
+Route::patch('/blogs/{id}' , [BlogController::class , 'edit']);
+Route::put('/blogs/{id}' , [BlogController::class , 'update']);
+Route::delete('/blogs/{id}', [ProductController::class, 'destroy']);
+Route::post('/logout', [AuthController::class, 'logout']);
+Route::get('/blogs', [BlogController::class , 'index']);
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::get('/blogs/{id}', [BlogController::class , 'show']);

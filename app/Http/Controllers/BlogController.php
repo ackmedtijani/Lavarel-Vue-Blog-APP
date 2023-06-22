@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreBlogRequest;
 use App\Http\Requests\UpdateBlogRequest;
 use App\Models\Blog;
+use App\Http\Resources\Users as UserResource;
+use App\Http\Resources\BlogResource;
 
 class BlogController extends Controller
 {
@@ -14,7 +16,7 @@ class BlogController extends Controller
     public function index()
     {
         //
-        return Blog::all();
+            return new UserResource(Blog::all());
     }
 
     /**
@@ -58,16 +60,18 @@ class BlogController extends Controller
      */
     public function show(Blog $id)
     {
+        return new BlogResource($id);
 
-        return $id;   //
+      
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Blog $blog)
+    public function edit(UpdateBlogRequest $request , Blog $blog)
     {
-        //
+        $blog->update($request->all());
+        return $blog; 
     }
 
     /**
@@ -75,9 +79,9 @@ class BlogController extends Controller
      */
     public function update(UpdateBlogRequest $request, Blog $blog)
     {
-        $product = Product::find($id);
-        $product->update($request->all());
-        return $product;   //
+    
+        $blog->update($request->all());
+        return $blog;   //
     }
 
     /**

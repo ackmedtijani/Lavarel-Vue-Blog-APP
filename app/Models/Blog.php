@@ -9,6 +9,13 @@ class Blog extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'Title',
+        'Content',
+        'type',
+        'image',
+    ];
+
     /* One to Many Relationship between Blog and the User
 
     */
