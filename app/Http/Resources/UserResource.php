@@ -4,10 +4,8 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Models\User;
-use App\Http\Resources\UserResource;
 
-class BlogResource extends JsonResource
+class UserResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -18,12 +16,9 @@ class BlogResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'Title' => $this->Title,
-            'Content' => $this->Content,
+            'name' => $this->name,
+            'email' => $this->email,
             'image' => $this->image,
-            'type' => $this->type,
-            'user_id' => UserResource::collection($this->whenLoaded('author')),
-            
         ];
     }
 }

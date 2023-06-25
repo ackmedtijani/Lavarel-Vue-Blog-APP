@@ -2,21 +2,54 @@
 
 namespace App\Http\Controllers;
 
+
+use Illuminate\Http\Request;
 use App\Http\Requests\StoreBlogRequest;
 use App\Http\Requests\UpdateBlogRequest;
-use App\Models\Blog;
-use App\Http\Resources\Users as UserResource;
+use App\Models\Blog; 
+use App\Http\Resources\BlogCollection;
 use App\Http\Resources\BlogResource;
+use App\Services\v1\BlogQuery;
+
+
+/** 
+ * A function that stores the image uploaded to appropriate folder
+ * 
+ */
+
+function storeImage(Request $request){
+    $uploadFolder = 'users';
+    $image = $request->file('image');
+    $image_uploaded_path = $image->store($uploadFolder, 'public');
+    return $image_uploaded_path;
+
+}
 
 class BlogController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         //
-            return new UserResource(Blog::all());
+
+            $blogQuery = new BlogQuery();
+            $query = $blogQuery->transform($request);
+
+            foreach($query as $q){
+                foreach($q as $arr){
+                    echo $arr;
+                }
+            }
+            $authordetails=$request->query('authordetails');
+            $blogs = Blog::where($query);
+
+            if ($authordetails){
+                $blogs = $blogs->with('author');
+            }
+
+            return new BlogCollection($blogs->paginate()->appends($request->query()));
     }
 
     /**
@@ -35,22 +68,20 @@ class BlogController extends Controller
         $fields = $request->validate([
             'Title' => 'required|string',
             'Content' => 'required|string',
-            'author' => 'required|int',
-            'image' => 'required|string',
-            'type' => 'required|string|image:jpeg,png,jpg,gif,svg|max:10048'
+            'author' => 'required|string',
+            'type' => 'required|string',
+            'image' => 'required|image:jpeg,png,jpg,gif,svg|max:10048'
         ]);
 
-        $uploadFolder = 'users';
-        $image = $request->file('image');
-        $image_uploaded_path = $image->store($uploadFolder, 'public');
+        $image_uploaded_path = storeImage($request);
 
-        return Product::create([
+
+        return Blog::create([
+            'user_id' => (int) $fields['author'],
             'Title' => $fields['Title'],
             'Content' => $fields['Content'],
-            'author' => $fields['int'],
             'image' => $image_uploaded_path,
             'type' => $fields['type']
-
         ]);
         //
     }
@@ -60,28 +91,30 @@ class BlogController extends Controller
      */
     public function show(Blog $id)
     {
+
+        $authordetails = request()->query('authordetails');
+
+        if ($authordetails) {
+            return new BlogResource($id->loadMissing('user_id'));
+        }
+
         return new BlogResource($id);
 
       
     }
 
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(UpdateBlogRequest $request , Blog $blog)
-    {
-        $blog->update($request->all());
-        return $blog; 
-    }
-
-    /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateBlogRequest $request, Blog $blog)
-    {
-    
-        $blog->update($request->all());
-        return $blog;   //
+
+    public function update(UpdateBlogRequest $request, Blog $id)
+    { 
+       if ($request->image){
+            $request->image = storeImage($request->image);
+       }
+       
+
+        return $id->update($request->all());
     }
 
     /**

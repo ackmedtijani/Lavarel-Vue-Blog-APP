@@ -42,9 +42,16 @@ return [
         ],
 
         'api' => [
-            'driver' => 'santum',
-            'provider' => 'user',
+            'driver' => 'session',
+            'provider' => 'users',
         ],
+
+        'santum' =>[
+            'driver' => 'token',
+            'provider' => 'users',
+            'hash' => false,
+        ]
+
     ],
 
     /*

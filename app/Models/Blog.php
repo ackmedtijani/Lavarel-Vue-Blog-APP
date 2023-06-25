@@ -14,6 +14,7 @@ class Blog extends Model
         'Content',
         'type',
         'image',
+        'user_id',
     ];
 
     /* One to Many Relationship between Blog and the User
