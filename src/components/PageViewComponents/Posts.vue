@@ -1,6 +1,4 @@
 <template>
-
-
     <div>
         <img src="../../assets/img/property2.jpeg"/>
         <p> {{ posts.type }} </p>
@@ -16,8 +14,6 @@
         </p>
     </div>
 </template>
-
-
 <script>
 
     export default {
@@ -26,4 +22,5 @@
 
 
 }
+
 </script>

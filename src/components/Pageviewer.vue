@@ -26,13 +26,18 @@
     </section>
 </template>
 
+
+
+
 <script>
 
     import Trending from './PageViewComponents/Trending.vue';
     import Posts from './PageViewComponents/Posts.vue';
 
     export default{
+
         name: 'PageviewerComponent',
+
         components: {
             Trending,
             Posts
@@ -41,23 +46,60 @@
         data(){
             return {
                 posts: [
-                    {id : 1 , Title : 'What is the photo' , Content : 'This is the photo',
-                     image : '' , author : 'What is the name' , created_at : 'July, 2019'},
+            {
+            "title" : "Who is the all might here",
+            "content": "Fuck the all might dafkjasdlffkasldf;asdfasdfkafsdf;;asdfkfas;flas",
+            "created" : "July, 2019",
+            "author": "Dr JT" ,
+            'id' : 1
+            },
 
-                    {id : 2 , 'Title' : 'What is the photo' , Content : 'This is the photo',
-                     image : '' , author : 'Carol Atkinson' , created_at : 'July, 2019'},
+            {
+            "title" : "Who is the all might here",
+            "content": "Fuck the all might dafkjasdlffkasldf;asdfasdfkafsdf;;asdfkfas;flas",
+            "created" : "July, 2019",
+            "author": "Dr JT" ,
+            'id' : 2
+            },
 
-                     {id : 3 , 'Title' : 'What is the photo' , Content : 'This is the photo',
-                     image : '' , author : 'Tijani Ahmed' , created_at : 'June, 2019'},
+            {
+                "title" : "Who is the all might here",
+                "content": "Fuck the all might dafkjasdlffkasldf;asdfasdfkafsdf;;asdfkfas;flas",
+                "created" : "July, 2019",
+                "author": "Dr JT" ,
+                'id' : 3,
+            },
 
-                     {id : 4 , 'Title' : 'What is the photo' , Content : 'This is the photo',
-                     image : '' , author : 'What is the name' , created_at : 'July, 2019'},
 
-                     {id : 5 , 'Title' : 'What is the photo' , Content : 'This is the photo',
-                     image : '' , author : 'What is the name' , created_at : 'July, 2019'},
+            {
+                "title" : "Who is the all might here",
+                "content": "Fuck the all might dafkjasdlffkasldf;asdfasdfkafsdf;;asdfkfas;flas",
+                "created" : "July, 2019",
+                "author": "Dr JT" ,
+                'id' : 4,
+            },
 
-                ],
+            {
+                "title" : "Who is the all might here",
+                "content": "Fuck the all might dafkjasdlffkasldf;asdfasdfkafsdf;;asdfkfas;flas",
+                "created" : "July, 2019",
+                "author": "Dr JT",
+                'id' : 5 
+            }
+
+        ],
+
+
+        methods: {
+            async getPosts(){
+                var response = await fetch('data.json');
+                console.log(response.json);
             }
         }
-}    
+
+        
+
+            }
+        }
+    }
 </script>

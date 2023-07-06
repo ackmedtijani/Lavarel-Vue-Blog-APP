@@ -1,9 +1,28 @@
 <template>
-    <h2> Post Detail </h2>
+
+
+    <div class="bg-no-repeat bg-cover bg-center">
+        <p> {{ $route.params.index }} </p>
+    </div>
+
+
 </template>
 
 <script>
-    export default{
-        name : 'PostDetailComponent'
+
+    export default {
+        
+        name: 'PostDetailComponent',
+        props : ['title' , 'content' , 'author' , 'category' , 'created'],
+
+        data(){
+            return {
+                pages : null
+            }
+        },
+
+        created(){
+
+        }
     }
 </script>
